@@ -76,7 +76,7 @@ spec:
           name: buildah
         params:
           - name: IMAGE
-            value: image-registry.openshift-image-registry.svc:5000/test/pipelinebuild
+            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)
           - name: BUILDER_IMAGE
             value: >-
               registry.redhat.io/rhel8/buildah@sha256:ac0b8714cc260c94435cab46fe41b3de0ccbc3d93e38c395fa9d52ac49e521fe
@@ -86,8 +86,8 @@ spec:
             value: ./Dockerfile
           - name: CONTEXT
             value: .
-          - name: TLSVERIFY
-            value: 'true'
+          - name: INSECUREREGISTRY
+            value: "false"
           - name: FORMAT
             value: oci
           - name: BUILD_EXTRA_ARGS
