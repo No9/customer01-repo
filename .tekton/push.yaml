@@ -68,6 +68,36 @@ spec:
               workingDir: $(workspaces.source.path)
               script: |
                 exit 0
+      - name: buildah
+        runAfter:
+          - noop-task
+        taskRef:
+          kind: ClusterTask
+          name: buildah
+        params:
+          - name: IMAGE
+            value: pipelinebuild
+          - name: BUILDER_IMAGE
+            value: >-
+              registry.redhat.io/rhel8/buildah@sha256:ac0b8714cc260c94435cab46fe41b3de0ccbc3d93e38c395fa9d52ac49e521fe
+          - name: STORAGE_DRIVER
+            value: vfs
+          - name: DOCKERFILE
+            value: ./Dockerfile
+          - name: CONTEXT
+            value: .
+          - name: TLSVERIFY
+            value: 'true'
+          - name: FORMAT
+            value: oci
+          - name: BUILD_EXTRA_ARGS
+            value: ''
+          - name: PUSH_EXTRA_ARGS
+            value: ''
+          - name: SKIP_PUSH
+            value: 'false'
+        workspaces:
+          - name: source
   workspaces:
   - name: source
     volumeClaimTemplate:
