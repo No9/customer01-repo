@@ -75,7 +75,8 @@ spec:
           kind: ClusterTask
           name: buildah
         params:
-          - name: IMAGE
+          # Using the internal registry - Additional auth may be required for external registries
+          - name: IMAGE 
             value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/repo01
           - name: BUILDER_IMAGE
             value: >-
