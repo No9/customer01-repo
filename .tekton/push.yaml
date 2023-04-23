@@ -36,6 +36,7 @@ spec:
     workspaces:
       - name: source
       - name: basic-auth
+      - name: dockerconfig
     tasks:
       - name: fetch-repository
         taskRef:
@@ -99,6 +100,8 @@ spec:
             value: 'false'
         workspaces:
           - name: source
+          - name: dockerconfig
+            workspace: dockerconfig
   workspaces:
   - name: source
     volumeClaimTemplate:
@@ -113,3 +116,6 @@ spec:
   - name: basic-auth
     secret:
       secretName: "{{ git_auth_secret }}"
+  - name: dockerconfig
+    secret:
+      secretName: dockerconfig
