@@ -53,32 +53,31 @@ spec:
   
       # Customize this task if you like, or just do a taskRef
       # to one of the hub task.
-      # - name: noop-task
-      #   runAfter:
-      #     - fetch-repository
-      #   workspaces:
-      #     - name: source
-      #       workspace: source
-      #   taskSpec:
-      #     workspaces:
-      #       - name: source
-      #     steps:
-      #       - name: noop-task
-      #         image: registry.access.redhat.com/ubi9/ubi-micro
-      #         workingDir: $(workspaces.source.path)
-      #         script: |
-      #           exit 0
-      - name: buildah
+      - name: noop-task
         runAfter:
           - fetch-repository
+        workspaces:
+          - name: source
+            workspace: source
+        taskSpec:
+          workspaces:
+            - name: source
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi9/ubi-micro
+              workingDir: $(workspaces.source.path)
+              script: |
+                exit 0
+      - name: buildah
+        runAfter:
+          - noop-task
         taskRef:
           kind: ClusterTask
           name: buildah
         params:
           # Using the internal registry - Additional auth may be required for external registries
-          - name: IMAGE 
-            # value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/repo01
-            value: quay.io/uirlis/repo01
+          - name: IMAGE
+            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/repo01
           - name: BUILDER_IMAGE
             value: >-
               registry.redhat.io/rhel8/buildah@sha256:ac0b8714cc260c94435cab46fe41b3de0ccbc3d93e38c395fa9d52ac49e521fe
@@ -100,8 +99,6 @@ spec:
             value: 'false'
         workspaces:
           - name: source
-          - name: dockerconfig
-            workspace: dockercredentials
   workspaces:
   - name: source
     volumeClaimTemplate:
@@ -111,8 +108,6 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  - name: dockercredentials
-    optional: false
   # This workspace will inject secret to help the git-clone task to be able to
   # checkout the private repositories
   - name: basic-auth
