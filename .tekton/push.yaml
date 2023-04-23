@@ -100,6 +100,8 @@ spec:
             value: 'false'
         workspaces:
           - name: source
+          - name: dockerconfig
+            workspace: dockercredentials
   workspaces:
   - name: source
     volumeClaimTemplate:
@@ -109,8 +111,8 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  - name: dockerconfig
-    workspace: dockerconfig
+  - name: dockercredentials
+    optional: false
   # This workspace will inject secret to help the git-clone task to be able to
   # checkout the private repositories
   - name: basic-auth
