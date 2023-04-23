@@ -78,7 +78,8 @@ spec:
         params:
           # Using the internal registry - Additional auth may be required for external registries
           - name: IMAGE
-            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/repo01
+            value: quay.io/uirlis/repo01
+            # value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/repo01
           - name: BUILDER_IMAGE
             value: >-
               registry.redhat.io/rhel8/buildah@sha256:ac0b8714cc260c94435cab46fe41b3de0ccbc3d93e38c395fa9d52ac49e521fe
