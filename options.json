@@ -1,0 +1,30 @@
+{
+    "general": {
+        "input_model_location": "bucket/path/onthecloud",
+        "bucket_credential_map": "id_of_credential"
+    },
+    "optimize": {
+        "input_model": "resnet_v1-50.pb",
+        "data_type": "FP16",
+        "input_shape": [
+            1,
+            224,
+            224,
+            3
+        ]
+    },
+    "compile": {
+        "m": "resnet_v1-50.xml",
+        "VPU_MYRIAD_PLATFORM": "VPU_MYRIAD_2450",
+        "VPU_NUMBER_OF_SHAVES": 8,
+        "VPU_NUMBER_OF_CMX_SLICES": 8
+    },
+    "upload": {
+        "output_binary_location": "/bucket/path/onthecloud"
+    },
+    "execute": [
+        {
+            "type": "rupia"
+        }
+    ]
+}
